@@ -88,7 +88,7 @@ detect_linux()
     	  return 0
     	  ;;
       
-      "archrolling | arch linux"  )
+      "archrolling" | "arch linux" )
         echo "ubuntu16" "pacman"
         return 0
         ;;
