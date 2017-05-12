@@ -85,8 +85,13 @@ detect_linux()
 
       "amazonami"* )
         echo "el6" "rpm"
-    	return 0
-    	;;
+    	  return 0
+    	  ;;
+      
+      "archrolling | arch linux"  )
+        echo "ubuntu16" "pacman"
+        return 0
+        ;;
 
       * )
         echo "error: ${DIST_NAME} is not supported."
