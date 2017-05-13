@@ -53,7 +53,7 @@ detect_linux()
 
     case ${DIST_NAME} in
 
-      "centos6" | "centos7" | "redhatenterpriseserver6" | "redhatenterpriseserver7" | "fedora20" | "fedora21" | "fedora22" | "fedora23" | "fedora24"| "fedora25" | "fedora26" | "fedora27" | "oracleserver6" | "scientific6" )
+      "centos6" | "centos7" | "redhatenterpriseserver6" | "redhatenterpriseserver7" | "fedora20" | "fedora21" | "fedora22" | "oracleserver6" | "scientific6" )
         echo "el6" "rpm"
         return 0
         ;;
@@ -85,13 +85,8 @@ detect_linux()
 
       "amazonami"* )
         echo "el6" "rpm"
-    	  return 0
-    	  ;;
-      
-      "archrolling" | "arch linux" )
-        echo "ubuntu16" "pacman"
-        return 0
-        ;;
+    	return 0
+    	;;
 
       * )
         echo "error: ${DIST_NAME} is not supported."
@@ -185,6 +180,11 @@ detect_linux()
 
       "amazon linux"* )
         echo "el6" "rpm"
+        return 0
+        ;;
+
+      "archrolling"* | "arch linux"* )
+        echo "ubuntu16" "pacman"
         return 0
         ;;
 
@@ -365,17 +365,18 @@ if [ $DOWNLOAD ] && [ $DOWNLOAD == 1 ]; then
     ##############################################################################
 
     # Extract the contents of the `devel` installer package into `aerospike-client`
+    printf "info: extracting files from '${INST_PATH}'\n"
     case ${PKG_TYPE} in
+      "pacman" )
+        ar p aerospike-client-c-devel-*.deb data.tar.xz | tar xJ
+        ;;
       "rpm" )
-        printf "info: extracting files from '${INST_PATH}'\n"
         rpm2cpio aerospike-client-c-devel-*.rpm | cpio -idm --no-absolute-filenames
         ;;
       "deb" )
-        printf "info: extracting files from '${INST_PATH}'\n"
         dpkg -x aerospike-client-c-devel-*.deb .
         ;;
       "pkg" )
-        printf "info: extracting files from '${INST_PATH}'\n"
         xar -xf aerospike-client-c-devel-*.pkg
         cat Payload | gunzip -dc | cpio -i
         rm Bom PackageInfo Payload
