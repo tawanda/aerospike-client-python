@@ -82,6 +82,11 @@ detect_linux()
         echo "ubuntu16" "deb"
         return 0
         ;;
+    
+      "archrolling"* | "arch linux"* )
+        echo "ubuntu16" "pacman"
+        return 0
+        ;;
 
       "amazonami"* )
         echo "el6" "rpm"
